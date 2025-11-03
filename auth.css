@@ -1,0 +1,4 @@
+/* auth.css - small auth-specific tweaks */
+.auth-form{max-width:420px;background:var(--white);padding:12px;border-radius:6px;border:1px solid #eee}
+.trip-form{max-width:720px;background:var(--white);padding:12px;border-radius:6px;border:1px solid #eee}
+.reserve-form{max-width:420px}
