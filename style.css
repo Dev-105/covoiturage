@@ -14,12 +14,13 @@
   --primary-black: #ffffff;
   --dark-black: #f8f9fa;
   --light-black: #e9ecef;
-  --primary-orange: #2184e0ef;
-  --dark-orange: #129f9d;
-  --light-orange: #9fd2f4;
+  --primary-orange: #059d26ef;
+  --dark-orange: #129f3f;
+  --light-orange: #008a15;
   --white: #000000;
   --light-gray: #495057;
   --medium-gray: #6c757d;
+  --lg : linear-gradient(135deg, #059d26ef 0%, #12549f 100%);
 }
 /* Reset & Base */
 * {
@@ -102,7 +103,7 @@ body {
 }
 
 .nav-link:hover {
-  background: var(--primary-orange);
+  background: var(--lg);
   color: var(--primary-black);
   transform: translateY(-2px);
 }
@@ -131,7 +132,7 @@ body {
 }
 
 .btn-primary {
-  background: var(--primary-orange);
+  background: var(--lg);
   color: var(--primary-black);
 }
 
@@ -147,7 +148,7 @@ body {
 }
 
 .btn-outline:hover {
-  background: var(--primary-orange);
+  background: var(--lg);
   color: var(--primary-black);
 }
 
@@ -2671,7 +2672,7 @@ Search Results
 }
 
 .mobile-nav-link:hover {
-    background: var(--primary-orange);
+    background: var(--lg);
     color: var(--white);
     transform: translateX(5px);
 }
@@ -3232,7 +3233,7 @@ Search Results
 .step-icon {
     width: 80px;
     height: 80px;
-    background: var(--primary-orange);
+    background: var(--lg);
     border-radius: 50%;
     display: flex;
     align-items: center;

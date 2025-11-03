@@ -12,6 +12,7 @@ $user = current_user();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="css/reviews.css">
+    <link rel="shortcut icon" href="car.png" type="image/x-icon">
 </head>
 <body>
     <header class="site-header">
@@ -19,7 +20,8 @@ $user = current_user();
             <div class="header-content">
                 <!-- Logo -->
                 <div class="logo">
-                    <i class="fas fa-car-side logo-icon"></i>
+                    <!-- <i class="fas fa-car-side logo-icon"></i> -->
+                     <img src="car.png" alt="" style="width: 50px;height: 50px; border-radius: 50%;">
                     <a href="index.php" class="logo-text">Covoit<span>Local</span></a>
                 </div>
 
