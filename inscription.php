@@ -155,7 +155,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <!-- Right Side - Illustration -->
             <div class="auth-illustration">
                 <div class="illustration-content">
-                    <i class="fas fa-users"></i>
+                    <!-- <i class="fas fa-users"></i> -->
+                    <img src="car.png" alt="" style="width: 80px;height: 80px; border-radius: 20px;">
                     <h3>Rejoignez-nous !</h3>
                     <p>Plus de 10,000 membres nous font déjà confiance pour leurs trajets</p>
                     

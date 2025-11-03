@@ -21,7 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <!-- Left Side - Illustration -->
             <div class="auth-illustration">
                 <div class="illustration-content">
-                    <i class="fas fa-car-side"></i>
+                    <!-- <i class="fas fa-car-side"></i> -->
+                     <img src="car.png" alt="" style="width: 80px;height: 80px; border-radius: 20px;">
                     <h3>Content de vous revoir !</h3>
                     <p>Reconnectez-vous à votre compte pour continuer votre voyage</p>
                 </div>

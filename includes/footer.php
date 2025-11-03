@@ -6,7 +6,8 @@
             <!-- Logo & Description -->
             <div class="footer-section">
                 <div class="footer-logo">
-                    <i class="fas fa-car-side"></i>
+                    <!-- <i class="fas fa-car-side"></i> -->
+                    <img src="car.png" alt="" style="width: 50px;height: 50px; border-radius: 50%;">
                     <span>CovoitLocal</span>
                 </div>
                 <p class="footer-description">
@@ -47,7 +48,7 @@
 
         <!-- Copyright -->
         <div class="footer-bottom">
-            <p>&copy; 2024 CovoitLocal. Tous droits réservés.</p>
+            <p>&copy; 2026 CovoitLocal. Tous droits réservés.</p>
         </div>
     </div>
 </footer>
