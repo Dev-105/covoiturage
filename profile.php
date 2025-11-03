@@ -158,6 +158,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </span>
                             </div>
                         </div>
+                        <?php if ($user['role'] === 'conducteur'): ?>
+                        <div class="info-item">
+                            <i class="fas fa-star"></i>
+                            <div class="info-content">
+                                <span class="info-label">Note moyenne</span>
+                                <span class="info-value">
+                                    <?php if ($user['average_rating'] !== null): ?>
+                                        <span class="rating-stars">
+                                            <?php
+                                            $rating = round($user['average_rating']);
+                                            for ($i = 1; $i <= 5; $i++) {
+                                                if ($i <= $rating) {
+                                                    echo '<i class="fas fa-star"></i>';
+                                                } else {
+                                                    echo '<i class="far fa-star"></i>';
+                                                }
+                                            }
+                                            ?>
+                                        </span>
+                                        <?=number_format($user['average_rating'], 1)?>/5 
+                                        <span class="reviews-count">(<?=$user['total_reviews']?> avis)</span>
+                                    <?php else: ?>
+                                        <span class="no-reviews">Aucun avis reçu</span>
+                                    <?php endif; ?>
+                                </span>
+                            </div>
+                        </div>
+                        <?php endif; ?>
                         <div class="info-item">
                             <i class="fas fa-car"></i>
                             <div class="info-content">
@@ -174,6 +202,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                     </div>
                 </div>
+
+                <?php if ($user['role'] === 'conducteur'): ?>
+                <div class="info-card">
+                    <h3>Avis reçus</h3>
+                    <div class="reviews-list">
+                        <?php
+                        $reviews = get_user_reviews($user['id']);
+                        if ($reviews): 
+                            foreach ($reviews as $review):
+                        ?>
+                            <div class="review-item">
+                                <div class="review-header">
+                                    <div class="review-rating">
+                                        <?php for ($i = 1; $i <= 5; $i++): ?>
+                                            <i class="fa<?= $i <= $review['rating'] ? 's' : 'r' ?> fa-star"></i>
+                                        <?php endfor; ?>
+                                    </div>
+                                    <div class="review-date">
+                                        <?=htmlspecialchars(date('d/m/Y', strtotime($review['created_at'])))?>
+                                    </div>
+                                </div>
+                                <div class="review-content">
+                                    <p class="review-text"><?=nl2br(htmlspecialchars($review['comment']))?></p>
+                                    <p class="review-trip">
+                                        <i class="fas fa-route"></i>
+                                        <?=htmlspecialchars($review['departure_city'])?> → 
+                                        <?=htmlspecialchars($review['arrival_city'])?>
+                                    </p>
+                                    <p class="review-author">
+                                        <i class="fas fa-user"></i>
+                                        <?=htmlspecialchars($review['reviewer_first_name'])?> 
+                                    </p>
+                                </div>
+                            </div>
+                        <?php 
+                            endforeach;
+                        else:
+                        ?>
+                            <p class="no-reviews-message">Aucun avis reçu pour le moment</p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <?php endif; ?>
 
                 <div class="info-card">
                     <h3>Actions du compte</h3>

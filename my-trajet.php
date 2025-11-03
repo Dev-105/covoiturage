@@ -132,6 +132,12 @@ $res = get_user_reservations($user['id']);
                                             <i class="fas fa-check-circle"></i>
                                             Confirmé
                                         </span>
+                                        <?php if (can_review_trip($r['trip_id'], $user['id'])): ?>
+                                            <a href="add_review.php?trip_id=<?=$r['trip_id']?>" class="btn btn-outline btn-small">
+                                                <i class="fas fa-star"></i>
+                                                Évaluer
+                                            </a>
+                                        <?php endif; ?>
                                     <?php elseif ($r['status'] === 'pending'): ?>
                                         <span class="status-badge status-pending">
                                             <i class="fas fa-clock"></i>

@@ -47,9 +47,20 @@ function logout() {
 function current_user() {
     if (isset($_SESSION['user_id'])) {
         $pdo = getPDO();
-        $stmt = $pdo->prepare("SELECT id, first_name, last_name, email, phone, role, created_at FROM users WHERE id = :id");
+        $stmt = $pdo->prepare("
+            SELECT id, first_name, last_name, email, phone, role, created_at,
+                   average_rating, total_reviews
+            FROM users 
+            WHERE id = :id
+        ");
         $stmt->execute([':id' => $_SESSION['user_id']]);
-        return $stmt->fetch();
+        $user = $stmt->fetch();
+        if ($user) {
+            // Ensure these fields are always set, even if NULL in database
+            $user['average_rating'] = $user['average_rating'] ?? null;
+            $user['total_reviews'] = $user['total_reviews'] ?? 0;
+        }
+        return $user;
     }
     return null;
 }

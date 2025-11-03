@@ -123,3 +123,97 @@ function get_user_reservations_count($user_id) {
     return (int)$stmt->fetchColumn();
 }
 
+function add_review($data) {
+    $pdo = getPDO();
+    try {
+        $pdo->beginTransaction();
+
+        // Check if already reviewed
+        $stmt = $pdo->prepare("SELECT id FROM reviews WHERE trip_id = :trip_id AND reviewer_id = :reviewer_id");
+        $stmt->execute([':trip_id' => $data['trip_id'], ':reviewer_id' => $data['reviewer_id']]);
+        if ($stmt->fetch()) {
+            throw new Exception('Vous avez déjà donné votre avis pour ce trajet');
+        }
+
+        // Add review
+        $stmt = $pdo->prepare("INSERT INTO reviews (trip_id, reviewer_id, driver_id, rating, comment) 
+                              VALUES (:trip_id, :reviewer_id, :driver_id, :rating, :comment)");
+        $stmt->execute([
+            ':trip_id' => $data['trip_id'],
+            ':reviewer_id' => $data['reviewer_id'],
+            ':driver_id' => $data['driver_id'],
+            ':rating' => $data['rating'],
+            ':comment' => $data['comment']
+        ]);
+
+        // Update driver's average rating
+        $stmt = $pdo->prepare("
+            UPDATE users u 
+            SET average_rating = (
+                SELECT AVG(rating) 
+                FROM reviews 
+                WHERE driver_id = u.id
+            ),
+            total_reviews = (
+                SELECT COUNT(*) 
+                FROM reviews 
+                WHERE driver_id = u.id
+            )
+            WHERE id = :driver_id
+        ");
+        $stmt->execute([':driver_id' => $data['driver_id']]);
+
+        $pdo->commit();
+        return true;
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        return $e->getMessage();
+    }
+}
+
+function get_user_reviews($user_id) {
+    $pdo = getPDO();
+    $stmt = $pdo->prepare("
+        SELECT r.*, 
+               t.departure_city, t.arrival_city, t.departure_date,
+               u.first_name as reviewer_first_name, u.last_name as reviewer_last_name
+        FROM reviews r
+        JOIN trips t ON r.trip_id = t.id
+        JOIN users u ON r.reviewer_id = u.id
+        WHERE r.driver_id = :id
+        ORDER BY r.created_at DESC
+    ");
+    $stmt->execute([':id' => $user_id]);
+    return $stmt->fetchAll();
+}
+
+function get_trip_reviews($trip_id) {
+    $pdo = getPDO();
+    $stmt = $pdo->prepare("
+        SELECT r.*, 
+               u.first_name as reviewer_first_name, u.last_name as reviewer_last_name
+        FROM reviews r
+        JOIN users u ON r.reviewer_id = u.id
+        WHERE r.trip_id = :trip_id
+        ORDER BY r.created_at DESC
+    ");
+    $stmt->execute([':trip_id' => $trip_id]);
+    return $stmt->fetchAll();
+}
+
+function can_review_trip($trip_id, $user_id) {
+    $pdo = getPDO();
+    // Check if user has a confirmed reservation and hasn't reviewed yet
+    $stmt = $pdo->prepare("
+        SELECT 1
+        FROM reservations r
+        LEFT JOIN reviews rv ON rv.trip_id = r.trip_id AND rv.reviewer_id = r.passenger_id
+        WHERE r.trip_id = :trip_id 
+        AND r.passenger_id = :user_id 
+        AND r.status = 'confirmed'
+        AND rv.id IS NULL
+    ");
+    $stmt->execute([':trip_id' => $trip_id, ':user_id' => $user_id]);
+    return (bool)$stmt->fetch();
+}
+

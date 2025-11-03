@@ -2715,3 +2715,384 @@ Search Results
     }
 }
 
+/* Review Section */
+.review-section {
+    padding: 40px 0;
+    background: var(--dark-black);
+    min-height: calc(100vh - 80px);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: var(--light-black);
+    border-radius: 15px;
+}
+
+.header-content h1 {
+    color: var(--white);
+    margin-bottom: 0.5rem;
+    font-size: 2.2rem;
+}
+
+.header-content p {
+    color: var(--medium-gray);
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.review-container {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Cards */
+.trip-summary-card,
+.review-form-card {
+    background: var(--light-black);
+    border-radius: 15px;
+    padding: 2rem;
+    border: 1px solid var(--light-black);
+    transition: all 0.3s ease;
+}
+
+.trip-summary-card:hover,
+.review-form-card:hover {
+    border-color: var(--primary-orange);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--primary-black);
+}
+
+.card-header i {
+    color: var(--primary-orange);
+    font-size: 1.5rem;
+}
+
+.card-header h3 {
+    color: var(--white);
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+/* Trip Details */
+.route-display {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--dark-black);
+    border-radius: 10px;
+}
+
+.city {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.city i {
+    font-size: 1.2rem;
+}
+
+.city.departure i {
+    color: var(--primary-orange);
+}
+
+.city.arrival i {
+    color: var(--light-orange);
+}
+
+.city-name {
+    color: var(--white);
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.route-line {
+    color: var(--medium-gray);
+    flex: 1;
+    text-align: center;
+}
+
+.trip-info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--dark-black);
+    border-radius: 8px;
+}
+
+.info-item i {
+    color: var(--primary-orange);
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+}
+
+.info-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-label {
+    font-size: 0.85rem;
+    color: var(--medium-gray);
+    margin-bottom: 0.25rem;
+}
+
+.info-value {
+    color: var(--white);
+    font-weight: 600;
+}
+
+/* Review Form */
+.review-form {
+    margin-top: 1rem;
+}
+
+.form-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--white);
+    margin-bottom: 1rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.form-label i {
+    color: var(--primary-orange);
+}
+
+/* Rating System */
+.rating-container {
+    margin-bottom: 2rem;
+}
+
+.rating-stars {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.rating-stars input[type="radio"] {
+    display: none;
+}
+
+.star-label {
+    position: relative;
+    cursor: pointer;
+    font-size: 2.5rem;
+    color: var(--medium-gray);
+    transition: all 0.3s ease;
+}
+
+.star-label .far,
+.star-label .fas {
+    transition: all 0.3s ease;
+}
+
+.star-label .fas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    color: var(--primary-orange);
+}
+
+.star-label:hover,
+.star-label.active {
+    transform: scale(1.1);
+}
+
+.star-label:hover .fas,
+.star-label.active .fas {
+    opacity: 1;
+}
+
+.star-label:hover .far,
+.star-label.active .far {
+    opacity: 0;
+}
+
+.star-text {
+    display: block;
+    font-size: 0.8rem;
+    text-align: center;
+    margin-top: 0.5rem;
+    color: var(--medium-gray);
+}
+
+.rating-labels {
+    display: flex;
+    justify-content: space-between;
+    color: var(--medium-gray);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/* Comment Textarea */
+.form-group textarea {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background: var(--dark-black);
+    border: 2px solid var(--light-black);
+    border-radius: 8px;
+    color: var(--white);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    resize: vertical;
+    min-height: 120px;
+    font-family: inherit;
+}
+
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-orange);
+    box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.1);
+}
+
+.form-group textarea::placeholder {
+    color: var(--medium-gray);
+}
+
+.char-counter {
+    text-align: right;
+    color: var(--medium-gray);
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+}
+
+#char-count {
+    color: var(--primary-orange);
+    font-weight: 600;
+}
+
+/* Form Tips */
+.form-tips {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: var(--dark-black);
+    border-radius: 10px;
+    border-left: 4px solid var(--primary-orange);
+}
+
+.form-tips h4 {
+    color: var(--white);
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.form-tips ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.form-tips li {
+    color: var(--medium-gray);
+    padding: 0.25rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    line-height: 1.5;
+}
+
+.form-tips li:before {
+    content: '✓';
+    color: var(--primary-orange);
+    position: absolute;
+    left: 0.5rem;
+    font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+    .review-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .review-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .route-display {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+    
+    .route-line {
+        transform: rotate(90deg);
+        margin: 0.5rem 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .review-section {
+        padding: 20px 0;
+    }
+    
+    .review-header {
+        padding: 1.5rem;
+    }
+    
+    .header-content h1 {
+        font-size: 1.8rem;
+    }
+    
+    .trip-summary-card,
+    .review-form-card {
+        padding: 1.5rem;
+    }
+    
+    .rating-stars {
+        gap: 0.25rem;
+    }
+    
+    .star-label {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .trip-summary-card,
+    .review-form-card {
+        padding: 1rem;
+    }
+    
+    .card-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+    
+    .rating-stars {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
