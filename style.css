@@ -14,9 +14,9 @@
   --primary-black: #ffffff;
   --dark-black: #f8f9fa;
   --light-black: #e9ecef;
-  --primary-orange: #28a745;
-  --dark-orange: #218838;
-  --light-orange: #34ce57;
+  --primary-orange: #2184e0ef;
+  --dark-orange: #129f9d;
+  --light-orange: #9fd2f4;
   --white: #000000;
   --light-gray: #495057;
   --medium-gray: #6c757d;
@@ -2052,7 +2052,7 @@ Search Results
     border-radius: 10px;
     font-size: 1rem;
     transition: all 0.3s ease;
-    background: var(--white);
+    background: var(--primary-black);
 }
 
 .input-group input:focus {

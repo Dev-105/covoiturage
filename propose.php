@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/includes/header.php';
+require_once __DIR__ . '/includes/auth_functions.php';
 require_once __DIR__ . '/includes/trip_functions.php';
 require_login();
 $user = current_user();
@@ -9,6 +9,65 @@ if ($user['role'] !== 'conducteur') {
     header('Location: index.php');
     exit;
 }
+
+$errors = [];
+$edit_mode = false;
+$trip_to_edit = null;
+
+// Récupérer le trajet à éditer
+if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+    $trip_to_edit = get_trip_by_id($_GET['id']);
+    if ($trip_to_edit && $trip_to_edit['driver_id'] == $user['id']) {
+        $edit_mode = true;
+    } else {
+        $trip_to_edit = null;
+    }
+}
+
+// Traitement du formulaire
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $data = [
+        'driver_id' => $user['id'],
+        'departure_city' => trim($_POST['departure_city'] ?? ''),
+        'arrival_city' => trim($_POST['arrival_city'] ?? ''),
+        'departure_date' => $_POST['departure_date'] ?? '',
+        'departure_time' => $_POST['departure_time'] ?? '',
+        'available_seats' => (int)($_POST['available_seats'] ?? 0),
+        'price' => (float)($_POST['price'] ?? 0),
+        'description' => trim($_POST['description'] ?? '')
+    ];
+    if ($data['available_seats'] <= 0) $errors[] = 'Précisez au moins 1 place';
+    if (!$data['departure_date'] || !$data['departure_time']) $errors[] = 'Date et heure requises';
+
+    if (empty($errors)) {
+        try {
+            if ($edit_mode && $trip_to_edit) {
+                // Update existing trip
+                $pdo = getPDO();
+                $stmt = $pdo->prepare("UPDATE trips SET departure_city = :departure_city, arrival_city = :arrival_city, departure_date = :departure_date, departure_time = :departure_time, available_seats = :available_seats, price = :price, description = :description WHERE id = :id AND driver_id = :driver_id");
+                $stmt->execute([
+                    ':departure_city' => $data['departure_city'],
+                    ':arrival_city' => $data['arrival_city'],
+                    ':departure_date' => $data['departure_date'],
+                    ':departure_time' => $data['departure_time'],
+                    ':available_seats' => $data['available_seats'],
+                    ':price' => $data['price'],
+                    ':description' => $data['description'],
+                    ':id' => $trip_to_edit['id'],
+                    ':driver_id' => $user['id']
+                ]);
+            } else {
+                create_trip($data);
+            }
+            header('Location: my-trajet.php');
+            exit;
+        } catch (Exception $e) {
+            $errors[] = 'Erreur lors de la ' . ($edit_mode ? 'modification' : 'création') . ' du trajet: ' . $e->getMessage();
+        }
+    }
+}
+
+require_once __DIR__ . '/includes/header.php';
 
 $errors = [];
 $edit_mode = false;

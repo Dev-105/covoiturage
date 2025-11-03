@@ -56,7 +56,7 @@ $user = current_user();
                             Déconnexion
                         </a>
                     <?php else: ?>
-                        <div class="auth-buttons">
+                        <div class="" style="display: flex;flex-wrap: nowrap;gap:10px;">
                             <a href="connexion.php" class="btn btn-outline">
                                 <i class="fas fa-sign-in-alt"></i>
                                 Connexion
@@ -66,6 +66,7 @@ $user = current_user();
                                 Inscription
                             </a>
                         </div>
+
                     <?php endif; ?>
                 </nav>
 

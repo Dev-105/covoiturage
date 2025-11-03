@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/trip_functions.php';
+require_once __DIR__ . '/includes/auth_functions.php';
 require_login();
 
 $trip_id = (int)($_GET['trip_id'] ?? 0);
@@ -12,6 +12,35 @@ if (!$trip || !can_review_trip($trip_id, $user['id'])) {
     header('Location: my-trajet.php');
     exit;
 }
+
+// Process the form submission before including header
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $rating = (int)($_POST['rating'] ?? 0);
+    $comment = trim($_POST['comment'] ?? '');
+
+    if ($rating < 1 || $rating > 5) {
+        $error = 'La note doit être entre 1 et 5 étoiles';
+    } elseif (empty($comment)) {
+        $error = 'Le commentaire est requis';
+    } else {
+        $result = add_review([
+            'trip_id' => $trip_id,
+            'reviewer_id' => $user['id'],
+            'driver_id' => $trip['driver_id'],
+            'rating' => $rating,
+            'comment' => $comment
+        ]);
+
+        if ($result === true) {
+            header('Location: my-trajet.php?reviewed=1');
+            exit;
+        } else {
+            $error = $result;
+        }
+    }
+}
+
+require_once __DIR__ . '/includes/header.php';
 
 $success = null;
 $error = null;
