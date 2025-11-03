@@ -20,7 +20,7 @@ function create_trip($data) {
 
 function search_trips($filters = []) {
     $pdo = getPDO();
-    $sql = "SELECT t.*, u.first_name, u.last_name FROM trips t LEFT JOIN users u ON t.driver_id = u.id WHERE t.status = 'active'";
+    $sql = "SELECT t.*, u.first_name, u.last_name, u.phone FROM trips t LEFT JOIN users u ON t.driver_id = u.id WHERE t.status = 'active'";
     $params = [];
     if (!empty($filters['departure_city'])) {
         $sql .= " AND t.departure_city LIKE :departure_city";
@@ -47,7 +47,7 @@ function search_trips($filters = []) {
 
 function get_trip_by_id($id) {
     $pdo = getPDO();
-    $stmt = $pdo->prepare("SELECT t.*, u.first_name, u.last_name FROM trips t LEFT JOIN users u ON t.driver_id = u.id WHERE t.id = :id");
+    $stmt = $pdo->prepare("SELECT t.*, u.first_name, u.last_name, u.phone FROM trips t LEFT JOIN users u ON t.driver_id = u.id WHERE t.id = :id");
     $stmt->execute([':id' => $id]);
     return $stmt->fetch();
 }
@@ -97,7 +97,7 @@ function get_user_reservations($user_id) {
     $stmt = $pdo->prepare("
         SELECT r.*, 
                t.departure_city, t.arrival_city, t.departure_date, t.departure_time,
-               u.first_name as driver_first_name, u.last_name as driver_last_name,
+               u.first_name as driver_first_name, u.last_name as driver_last_name, u.phone as driver_phone,
                CONCAT(u.first_name, ' ', u.last_name) as driver_name
         FROM reservations r 
         JOIN trips t ON r.trip_id = t.id 

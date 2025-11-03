@@ -1,5 +1,5 @@
 /* Variables CSS */
-:root {
+/* :root {
   --primary-black: #000000;
   --dark-black: #0a0a0a;
   --light-black: #1a1a1a;
@@ -9,9 +9,18 @@
   --white: #ffffff;
   --light-gray: #f5f5f5;
   --medium-gray: #e0e0e0;
+} */
+:root {
+  --primary-black: #ffffff;
+  --dark-black: #f8f9fa;
+  --light-black: #e9ecef;
+  --primary-orange: #28a745;
+  --dark-orange: #218838;
+  --light-orange: #34ce57;
+  --white: #000000;
+  --light-gray: #495057;
+  --medium-gray: #6c757d;
 }
-
-
 /* Reset & Base */
 * {
   margin: 0;

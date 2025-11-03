@@ -127,6 +127,12 @@ $res = get_user_reservations($user['id']);
                                         <i class="fas fa-user"></i>
                                         <span>Conducteur: <?=htmlspecialchars($r['driver_first_name'] . ' ' . $r['driver_last_name'])?></span>
                                     </div>
+                                    <?php if ($r['driver_phone']): ?>
+                                    <div class="detail">
+                                        <i class="fas fa-phone"></i>
+                                        <span><?=htmlspecialchars($r['driver_phone'])?></span>
+                                    </div>
+                                    <?php endif; ?>
                                 </div>
 
                                 <div class="reservation-actions">

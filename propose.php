@@ -4,6 +4,12 @@ require_once __DIR__ . '/includes/trip_functions.php';
 require_login();
 $user = current_user();
 
+// Rediriger les passagers vers la page d'accueil
+if ($user['role'] !== 'conducteur') {
+    header('Location: index.php');
+    exit;
+}
+
 $errors = [];
 $edit_mode = false;
 $trip_to_edit = null;

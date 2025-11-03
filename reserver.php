@@ -123,9 +123,17 @@ if (!$trip) {
                                 </div>
                                 <?php endif; ?>
                                 
-                                <div class="trip-driver">
+                                <div class="trip-driver" style="display:flex;flex-direction: column; align-items: flex-start;gap: 5px;">
+                                    <div>
                                     <i class="fas fa-user"></i>
                                     <span>Conducteur: <?=htmlspecialchars($t['first_name'] . ' ' . $t['last_name'])?></span>
+                                    </div>
+                                    <?php if (isset($user) && $user): ?>
+                                        <div class="driver-contact">
+                                            <i class="fas fa-phone"></i>
+                                            <span><?=htmlspecialchars($t['phone'] ?: 'Non renseigné')?></span>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
                                 
                                 <div class="trip-actions">
@@ -247,7 +255,15 @@ if (!$trip) {
                             <i class="fas fa-user"></i>
                             <div class="info-content">
                                 <span class="info-label">Conducteur</span>
-                                <span class="info-value"><?=htmlspecialchars($trip['first_name'] . ' ' . $trip['last_name'])?></span>
+                                <span class="info-value">
+                                    <?=htmlspecialchars($trip['first_name'] . ' ' . $trip['last_name'])?>
+                                    <?php if (isset($user) && $user): ?>
+                                        <div class="driver-phone">
+                                            <i class="fas fa-phone"></i>
+                                            <?=htmlspecialchars($trip['phone'] ?: 'Non renseigné')?>
+                                        </div>
+                                    <?php endif; ?>
+                                </span>
                             </div>
                         </div>
                     </div>

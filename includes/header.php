@@ -37,10 +37,12 @@ $user = current_user();
                     </a>
                     
                     <?php if ($user): ?>
-                        <a href="propose.php" class="nav-link">
-                            <i class="fas fa-plus"></i>
-                            Proposer
-                        </a>
+                        <?php if ($user['role'] === 'conducteur'): ?>
+                            <a href="propose.php" class="nav-link">
+                                <i class="fas fa-plus"></i>
+                                Proposer
+                            </a>
+                        <?php endif; ?>
                         <a href="my-trajet.php" class="nav-link">
                             <i class="fas fa-route"></i>
                             Mes trajets
@@ -89,10 +91,12 @@ $user = current_user();
                 </a>
                 
                 <?php if ($user): ?>
-                    <a href="propose.php" class="mobile-nav-link">
-                        <i class="fas fa-plus"></i>
-                        <span>Proposer un trajet</span>
-                    </a>
+                    <?php if ($user['role'] === 'conducteur'): ?>
+                        <a href="propose.php" class="mobile-nav-link">
+                            <i class="fas fa-plus"></i>
+                            <span>Proposer un trajet</span>
+                        </a>
+                    <?php endif; ?>
                     <a href="my-trajet.php" class="mobile-nav-link">
                         <i class="fas fa-route"></i>
                         <span>Mes trajets</span>
