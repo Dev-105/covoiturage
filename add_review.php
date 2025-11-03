@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <i class="fas fa-route"></i>
                     <h3>Détails du trajet</h3>
                 </div>
-                <div class="trip-details">
+                <div class="trip-details" style="flex-direction: column;display: flex; gap: 15px;">
                     <div class="route-display">
                         <div class="city departure">
                             <i class="fas fa-play-circle"></i>
@@ -128,10 +128,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="rating-stars">
                                 <?php for($i = 1; $i <= 5; $i++): ?>
                                     <input type="radio" id="star<?=$i?>" name="rating" value="<?=$i?>" required>
-                                    <label for="star<?=$i?>" class="star-label">
+                                    <label for="star<?=$i?>" class="star-label" style="margin:10px">
                                         <i class="far fa-star"></i>
                                         <i class="fas fa-star"></i>
-                                        <span class="star-text"><?=$i?> étoile<?=$i > 1 ? 's' : ''?></span>
+                                        
                                     </label>
                                 <?php endfor; ?>
                             </div>

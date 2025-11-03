@@ -129,10 +129,21 @@ if (!$trip) {
                                 </div>
                                 
                                 <div class="trip-actions">
-                                    <?php if ($t['available_seats'] > 0): ?>
+                                    <?php
+                                    $canReserve = true;
+                                    if (isset($user) && $user && $user['id'] == $t['driver_id']) {
+                                        $canReserve = false;
+                                    }
+                                    ?>
+                                    <?php if ($t['available_seats'] > 0 && $canReserve): ?>
                                         <a href="reserver.php?id=<?=$t['id']?>" class="btn btn-primary">
                                             <i class="fas fa-ticket-alt"></i>
                                             Réserver
+                                        </a>
+                                    <?php elseif (!$canReserve): ?>
+                                        <a href="propose.php?id=<?=$t['id']?>" class="btn btn-outline">
+                                            <i class="fas fa-edit"></i>
+                                            Modifier
                                         </a>
                                     <?php else: ?>
                                         <span class="btn btn-disabled">

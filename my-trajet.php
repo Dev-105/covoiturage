@@ -65,11 +65,14 @@ $res = get_user_reservations($user['id']);
                                     </div>
                                 </div>
 
-                                <div class="trip-status">
+                                <div class="trip-status" style="position:relative">
                                     <span class="status-badge status-<?=$t['available_seats'] > 0 ? 'active' : 'full'?>">
                                         <i class="fas fa-<?=$t['available_seats'] > 0 ? 'check' : 'times'?>-circle"></i>
                                         <?=$t['available_seats'] > 0 ? 'Disponible' : 'Complet'?>
                                     </span>
+                                    <a href="propose.php?id=<?=$t['id']?>" class="btn" title="Modifier le trajet" style="background: var(--primary-orange);color: var(--white) ;position: absolute; left: 0; bottom: 0;">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
                                 </div>
                             </div>
                         <?php endforeach; ?>

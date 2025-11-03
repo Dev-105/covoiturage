@@ -5,6 +5,17 @@ require_login();
 $user = current_user();
 
 $errors = [];
+$edit_mode = false;
+$trip_to_edit = null;
+if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+    $trip_to_edit = get_trip_by_id($_GET['id']);
+    if ($trip_to_edit && $trip_to_edit['driver_id'] == $user['id']) {
+        $edit_mode = true;
+    } else {
+        $trip_to_edit = null;
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = [
         'driver_id' => $user['id'],
@@ -21,11 +32,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($errors)) {
         try {
-            create_trip($data);
+            if ($edit_mode && $trip_to_edit) {
+                // Update existing trip
+                $pdo = getPDO();
+                $stmt = $pdo->prepare("UPDATE trips SET departure_city = :departure_city, arrival_city = :arrival_city, departure_date = :departure_date, departure_time = :departure_time, available_seats = :available_seats, price = :price, description = :description WHERE id = :id AND driver_id = :driver_id");
+                $stmt->execute([
+                    ':departure_city' => $data['departure_city'],
+                    ':arrival_city' => $data['arrival_city'],
+                    ':departure_date' => $data['departure_date'],
+                    ':departure_time' => $data['departure_time'],
+                    ':available_seats' => $data['available_seats'],
+                    ':price' => $data['price'],
+                    ':description' => $data['description'],
+                    ':id' => $trip_to_edit['id'],
+                    ':driver_id' => $user['id']
+                ]);
+            } else {
+                create_trip($data);
+            }
             header('Location: my-trajet.php');
             exit;
         } catch (Exception $e) {
-            $errors[] = 'Erreur lors de la création du trajet: ' . $e->getMessage();
+            $errors[] = 'Erreur lors de la ' . ($edit_mode ? 'modification' : 'création') . ' du trajet: ' . $e->getMessage();
         }
     }
 }
@@ -34,8 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <section class="propose-section">
     <div class="container">
         <div class="propose-header">
-            <h1>Proposer un trajet</h1>
-            <p>Partagez votre trajet et voyagez à plusieurs</p>
+            <h1><?= $edit_mode ? 'Modifier le trajet' : 'Proposer un trajet' ?></h1>
+            <p><?= $edit_mode ? 'Modifiez les informations de votre trajet' : 'Partagez votre trajet et voyagez à plusieurs' ?></p>
         </div>
 
         <div class="propose-container">
@@ -63,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 name="departure_city" 
                                 placeholder="Ex: Paris" 
                                 required
-                                value="<?=htmlspecialchars($_POST['departure_city'] ?? '')?>"
+                                value="<?=htmlspecialchars($_POST['departure_city'] ?? ($edit_mode && $trip_to_edit ? $trip_to_edit['departure_city'] : ''))?>"
                             >
                         </div>
 
@@ -78,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 name="arrival_city" 
                                 placeholder="Ex: Lyon" 
                                 required
-                                value="<?=htmlspecialchars($_POST['arrival_city'] ?? '')?>"
+                                value="<?=htmlspecialchars($_POST['arrival_city'] ?? ($edit_mode && $trip_to_edit ? $trip_to_edit['arrival_city'] : ''))?>"
                             >
                         </div>
                     </div>
@@ -94,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 id="departure_date" 
                                 name="departure_date" 
                                 required
-                                value="<?=htmlspecialchars($_POST['departure_date'] ?? '')?>"
+                                value="<?=htmlspecialchars($_POST['departure_date'] ?? ($edit_mode && $trip_to_edit ? $trip_to_edit['departure_date'] : ''))?>"
                                 min="<?=date('Y-m-d')?>"
                             >
                         </div>
@@ -109,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 id="departure_time" 
                                 name="departure_time" 
                                 required
-                                value="<?=htmlspecialchars($_POST['departure_time'] ?? '')?>"
+                                value="<?=htmlspecialchars($_POST['departure_time'] ?? ($edit_mode && $trip_to_edit ? $trip_to_edit['departure_time'] : ''))?>"
                             >
                         </div>
                     </div>
@@ -128,7 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 max="8"
                                 placeholder="1 à 8 places"
                                 required
-                                value="<?=htmlspecialchars($_POST['available_seats'] ?? '')?>"
+                                value="<?=htmlspecialchars($_POST['available_seats'] ?? ($edit_mode && $trip_to_edit ? $trip_to_edit['available_seats'] : ''))?>"
                             >
                         </div>
 
@@ -145,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 min="0"
                                 placeholder="0.00"
                                 required
-                                value="<?=htmlspecialchars($_POST['price'] ?? '')?>"
+                                value="<?=htmlspecialchars($_POST['price'] ?? ($edit_mode && $trip_to_edit ? $trip_to_edit['price'] : ''))?>"
                             >
                         </div>
                     </div>
@@ -160,12 +188,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             name="description" 
                             placeholder="Décrivez votre trajet, points de rendez-vous, préférences..."
                             rows="4"
-                        ><?=htmlspecialchars($_POST['description'] ?? '')?></textarea>
+                        ><?=htmlspecialchars($_POST['description'] ?? ($edit_mode && $trip_to_edit ? $trip_to_edit['description'] : ''))?></textarea>
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-full">
                         <i class="fas fa-paper-plane"></i>
-                        Publier le trajet
+                        <?= $edit_mode ? 'Enregistrer les modifications' : 'Publier le trajet' ?>
                     </button>
                 </form>
             </div>
