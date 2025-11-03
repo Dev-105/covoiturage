@@ -1,14 +1,14 @@
 /* Variables CSS */
 :root {
-  --primary-black: #000000;
-  --dark-black: #0a0a0a;
-  --light-black: #1a1a1a;
-  --primary-orange: #ff6b00;
-  --dark-orange: #e55a00;
-  --light-orange: #ff8c42;
-  --white: #ffffff;
-  --light-gray: #f5f5f5;
-  --medium-gray: #e0e0e0;
+  --primary-black: #ffffff;
+  --dark-black: #e9ebea;
+  --light-black: #d6d6d6;
+  --primary-orange: #07a264;
+  --dark-orange: #017943;
+  --light-orange: #25b073;
+  --white: #000000;
+  --light-gray: #555555;
+  --medium-gray: #282828;
 }
 
 /* Reset & Base */
